@@ -31,12 +31,11 @@ if(isset($_POST['action'])){
         break;
 
         case 'destroy':
-           
-            $id = strip_tags($_POST['id']);
 
-           //var_dump($_POST);
-            $categoryController->destroy($id);
-        break;
+			$id = strip_tags($_POST['id']);
+
+			$categoryController->destroy($id);
+		break;
 
 
 
@@ -88,15 +87,19 @@ class CategoryController{
 
                 if($prepared_query->execute()){
                     header("location:".$_SERVER['HTTP_REFERER']);
+                    $_SESSION['success'] = "el registro se ha guardado correctamente";
                 }else{
+                    $_SESSION['error'] = 'verifique los datos envíados';
                     header("location:".$_SERVER['HTTP_REFERER']);
                 }
             }else{
+                $_SESSION['error'] = 'verifique los datos envíados';
                 header("location:".$_SERVER['HTTP_REFERER']);
             }
 
 
         }else{
+            $_SESSION['error'] = 'verifique los datos envíados';
             header("location:".$_SERVER['HTTP_REFERER']);
         }
 
@@ -131,28 +134,36 @@ class CategoryController{
         
     }
     /*
+
     Me falto la parte del delete y la de la sesion
     
     */ 
     public function destroy($id){
+
         $conn = connect();
-        
 
-        if($id!=""){
-            $query = "delete from categories where id = ?";
+		if ($conn->connect_error==false) {
+			
+			if ($id != "") {
+				
+				$query = "delete from categories where id = ?";
+				$prepared_query = $conn->prepare($query);
+				$prepared_query->bind_param('i',$id);
+				if ($prepared_query->execute()) {
 
-            $prepared_query = $conn->prepare($query);
-            $prepared_query->bind_param('sssi',$name,$description,$status,$id);
+					header("Location:".$_SERVER['HTTP_REFERER']);
+				}else{
+					header("Location:".$_SERVER['HTTP_REFERER']);
+				}
 
-            if($prepared_query->execute()){
-                header("location:".$_SERVER['HTTP_REFERER']);
-            }else{
-                header("location:".$_SERVER['HTTP_REFERER']);
-            }
+			}else{
+				header("Location:".$_SERVER['HTTP_REFERER']);
+			}
 
-        }else{
-            header("location:".$_SERVER['HTTP_REFERER']);
-        }
+
+		}else{
+			header("Location:".$_SERVER['HTTP_REFERER']);
+		}
     }
 
 
