@@ -16,6 +16,17 @@ $categories = $categoryController -> get();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories</title>
+
+    <style type="text/css">
+        table, th,td{
+            border: 1px solid black;
+            
+        }
+        #updateForm{
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -34,34 +45,48 @@ $categories = $categoryController -> get();
                 <th>
                     Description
                 </th>
-                
-            </thead>
+                <th>
+                    Actions
+                </th>
+              
+            </thead> 
             <tbody>
-                <?php
+                
+				<?php foreach ($categories as $category): ?>
 
-                    foreach($categories as $category){
+                <tr>
+                    
+                    <td>
+                        <?= $category['id'] ?>
+                    </td>
+                    <td>
+                        <?= $category['name'] ?>
+                    </td>
+                    <td>
+                        <?= $category['description'] ?>
+                    </td>
+                    <td>
+                    <button onclick="edit(<?= $category['id'] ?>,'<?= $category['name'] ?>','<?= $category['description'] ?>','<?= $category['status'] ?>')">
+                            Edit category
+                    </button>
+                    <button onclick="remove(<?= $category['id'] ?>)" style="color: white; background: red;">
+                        Delete category
+                    </button>
+                    </td>
 
-                        echo "<tr>
-                            <td>
-                                ".$category['id']."
-                            </td>
-                            <td>
-                                ".$category['name']."
-                            </td>
-                            <td>
-                                ".$category['description']."
-                            </td>
-                            </tr>";
+                </tr>
+        
+                <?php endforeach ?>
 
-                    }
+                <?php 
 
-                ?>
+                ?> 
 
                 
             </tbody>
         </table>
 
-        <form action="../app/categoryController.php" method="POST">
+        <form id="storeForm" action="../app/categoryController.php" method="POST">
             <fieldset>
                 <legend>
                     Add new category
@@ -86,20 +111,86 @@ $categories = $categoryController -> get();
 
                 <select name="status">
                     <option>Active</option>
-                    <option>Inactive</option>
+                    <option>inactive</option>
                 </select><br>
 
                 <button type="submit">SAVE</button>
                 <input type="hidden" name="action" value="store">
 
-                
-
-
-
-
             </fieldset>
         </form>
+        
+
+        <form id="updateForm" action="../app/categoryController.php" method="POST">
+            <fieldset>
+                <legend>
+                    Edit category
+                </legend>
+
+                <label for="">
+                    name
+                </label>
+
+                <input type="text" id="name" name="name" placeholder="terror"> <br>
+
+                <label for="">
+                    Description
+                </label><br>
+
+                <textarea name="description" id="description" cols="30" rows="5" placeholder="write here"></textarea><br>
+
+                <label for="">
+                    Status
+                </label>
+
+                <select id="status" name="status">
+                    <option>Active</option>
+                    <option>inactive</option>
+                </select><br>
+
+                <button type="submit">SAVE</button>
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="id" id="id">
+            </fieldset>
+        </form>
+
+
+        <form id="destroyForm" action="../app/categoryController.php" method="POST">
+
+
+            <input type="hidden" name="action" value="destroy">
+            <input type="hidden" name="id" id="id_destroy">
+
+        </form>
     </div>
+
+    <script type="text/javascript">
+
+    function edit(id,name,description,status){
+        
+        document.getElementById('storeForm').style.display="none";
+        document.getElementById('updateForm').style.display="block";
+
+        document.getElementById('name').value=name
+        document.getElementById('description').value=description
+        document.getElementById('status').value=status
+        document.getElementById('id').value=id
+    }
+
+    function remove(id){
+        
+        var confirm = prompt("Si quiere eliminar el registro, escriba: "+ id);
+
+        if(confirm == id){
+
+            document.getElementById('id_destroy').value=id;
+            document.getElementById('destroyForm').submit();
+
+
+        }
+    }
+    
+    </script>
     
 </body>
 </html>

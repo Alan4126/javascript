@@ -1,5 +1,9 @@
 <?php
 
+if (!isset($_SESSION)) {
+    session_start();
+}
+
 include "connectionController.php";
 
 if(isset($_POST['action'])){
@@ -14,6 +18,24 @@ if(isset($_POST['action'])){
             $status = strip_tags($_POST['status']);
 
             $categoryController->store($name,$description,$status);
+        break;
+
+        case 'update':
+            $name = strip_tags($_POST['name']);
+            $description = strip_tags($_POST['description']);
+            $status = strip_tags($_POST['status']);
+            $id = strip_tags($_POST['id']);
+
+           //var_dump($_POST);
+            $categoryController->update($id,$name,$description,$status);
+        break;
+
+        case 'destroy':
+           
+            $id = strip_tags($_POST['id']);
+
+           //var_dump($_POST);
+            $categoryController->destroy($id);
         break;
 
 
@@ -78,6 +100,59 @@ class CategoryController{
             header("location:".$_SERVER['HTTP_REFERER']);
         }
 
+    }
+
+    public function update($id,$name,$description,$status)
+    {
+        $conn = connect();
+
+        if($conn->connect_error==false){
+
+            if($id != "" && $name!="" && $description != "" && $status != ""){
+
+                $query="update categories set name = ?, description = ?, status = ? where id = ?";
+
+                $prepared_query = $conn->prepare($query);
+                $prepared_query->bind_param('sssi',$name,$description,$status,$id);
+
+                if($prepared_query->execute()){
+                    header("location:".$_SERVER['HTTP_REFERER']);
+                }else{
+                    header("location:".$_SERVER['HTTP_REFERER']);
+                }
+
+            }else{
+                header("location:".$_SERVER['HTTP_REFERER']);
+            }
+          
+        }else{
+            header("location:".$_SERVER['HTTP_REFERER']);
+        }
+        
+    }
+    /*
+    Me falto la parte del delete y la de la sesion
+    
+    */ 
+    public function destroy($id){
+        $conn = connect();
+        
+
+        if($id!=""){
+            $query = "delete from categories where id = ?";
+
+            $prepared_query = $conn->prepare($query);
+            $prepared_query->bind_param('sssi',$name,$description,$status,$id);
+
+            if($prepared_query->execute()){
+                header("location:".$_SERVER['HTTP_REFERER']);
+            }else{
+                header("location:".$_SERVER['HTTP_REFERER']);
+            }
+
+        }else{
+            header("location:".$_SERVER['HTTP_REFERER']);
+        }
     }
 
 
