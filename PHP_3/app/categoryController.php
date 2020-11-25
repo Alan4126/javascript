@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-include "connectionController.php";
+include_once "connectionController.php";
 
 if(isset($_POST['action'])){
 
@@ -133,11 +133,7 @@ class CategoryController{
         }
         
     }
-    /*
-
-    Me falto la parte del delete y la de la sesion
-    
-    */ 
+  
     public function destroy($id){
 
         $conn = connect();
