@@ -8,11 +8,11 @@
 	$categories = $categoryController->get();
 	$movies = $movieController->get();
 
-	// if (!isset($_SESSION['id']) || $_SESSION['role'] != "admin") {
-	// 	header("Location:../");
-	// }
+	if(isset($_SESSION)==false || $_SESSION['id']==false){
+		header("Location:../");
+	}
 
-	#echo json_encode($movies);
+	
 ?>
 <!DOCTYPE html>
 <html>

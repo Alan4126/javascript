@@ -6,7 +6,9 @@ $categoryController = new CategoryController();
 
 $categories = $categoryController -> get();
 
-
+if(isset($_SESSION)==false || $_SESSION['id']==false){
+    header("Location:../");
+}
 
 ?>
 
