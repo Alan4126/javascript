@@ -1,14 +1,13 @@
 <?php
 
-if (!isset($_SESSION)) {
-    session_start();
-}
+include_once "app.php";
 
 include_once "connectionController.php";
 
 if(isset($_POST['action'])){
 
-    $categoryController = new CategoryController();
+    if(isset($_POST['token']) && $_POST['token']==$_SESSION['token']){
+        $categoryController = new CategoryController();
 
     switch($_POST['action']){
 
@@ -41,6 +40,8 @@ if(isset($_POST['action'])){
 
     }
 
+    }
+    
 }
 
 class CategoryController{

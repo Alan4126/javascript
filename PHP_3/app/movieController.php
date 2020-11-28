@@ -3,14 +3,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION)) {
-	session_start();
-}
+
 include_once "connectionController.php";
+include_once "app.php";
 
 if (isset($_POST['action'])) {
-
-	$movieController = new MovieController();
+	if(isset($_POST['token']) && $_POST['token']==$_SESSION['token']){
+		$movieController = new MovieController();
 
 	switch ($_POST['action']) {
 		case 'store':
@@ -24,6 +23,8 @@ if (isset($_POST['action'])) {
 			$movieController->store($title,$descripiton,$minutes,$clasification,$category_id);
 		break; 
 	}
+	}
+	
 }
 
 class MovieController

@@ -10,6 +10,8 @@ if(isset($_SESSION)==false || $_SESSION['id']==false){
     header("Location:../");
 }
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -114,7 +116,7 @@ if(isset($_SESSION)==false || $_SESSION['id']==false){
             </tbody>
         </table>
 
-        <form id="storeForm" action="../app/categoryController.php" method="POST">
+        <form id="storeForm" action="<?php BASE_PATH ?>/category" method="POST">
             <fieldset>
                 <legend>
                     Add new category
@@ -144,12 +146,12 @@ if(isset($_SESSION)==false || $_SESSION['id']==false){
 
                 <button type="submit">SAVE</button>
                 <input type="hidden" name="action" value="store">
-
+                <input type="hidden" name="token" value="<?=$_SESSION['token']?>">
             </fieldset>
         </form>
         
 
-        <form id="updateForm" action="../app/categoryController.php" method="POST">
+        <form id="updateForm" action="<?php BASE_PATH ?>/category" method="POST">
             <fieldset>
                 <legend>
                     Edit category
@@ -179,16 +181,17 @@ if(isset($_SESSION)==false || $_SESSION['id']==false){
                 <button type="submit">SAVE</button>
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="id" id="id">
+                <input type="hidden" name="token" value="<?=$_SESSION['token']?>">
             </fieldset>
         </form>
 
 
-        <form id="destroyForm" action="../app/categoryController.php" method="POST">
+        <form id="destroyForm" action="<?php BASE_PATH ?>/category" method="POST">
 
 
             <input type="hidden" name="action" value="destroy">
             <input type="hidden" name="id" id="id_destroy">
-
+            <input type="hidden" name="token" value="<?=$_SESSION['token']?>">
         </form>
     </div>
 

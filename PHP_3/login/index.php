@@ -1,8 +1,8 @@
 <?php 
 
-if(!isset($_SESSION)){
-	session_start();
-}
+include "../app/app.php";
+
+
 
 ?>
 <!DOCTYPE html>
@@ -19,7 +19,7 @@ if(!isset($_SESSION)){
 </head>
 <body>
 	
-		<form action="../app/authController.php" method="POST">
+		<form action="../auth" method="POST">
 			<fieldset>
 				<legend>
 					Access in your account
@@ -38,6 +38,7 @@ if(!isset($_SESSION)){
 					Access
 				</button>
 				<input type="hidden" name="action" value="login">
+				<input type="hidden" name="token" value="<?=$_SESSION['token']?>">
 		</fieldset>
 
 		</form>	
@@ -45,7 +46,7 @@ if(!isset($_SESSION)){
 
 
 
-		<form action="../app/authController.php" method="POST">
+		<form action="../auth" method="POST">
 
 			<fieldset>
 				<legend>
@@ -71,6 +72,7 @@ if(!isset($_SESSION)){
 					Save
 				</button>
 				<input type="hidden" name="action" value="register">
+				<input type="hidden" name="token" value="<?=$_SESSION['token']?>">
 			</fieldset>
 
 
